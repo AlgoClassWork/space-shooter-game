@@ -11,7 +11,12 @@ class GameSprite(sprite.Sprite):
     def show(self):
         window.blit(self.image, (self.rect.x, self.rect.y))
 
-player = GameSprite(img='player.png', x=300, y=400, w=100, h=100)
+class Player(GameSprite):
+    def move(self):
+        mouse_x, mouse_y = mouse.get_pos() 
+        player.rect.centerx = mouse_x 
+
+player = Player(img='player.png', x=300, y=400, w=100, h=100)
 
 window = display.set_mode( (700,500) )
 display.set_caption('Шутер')
@@ -25,5 +30,6 @@ while True:
 
     window.blit( background, (0, 0) )
     player.show()
+    player.move()
 
     display.update()
