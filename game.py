@@ -66,5 +66,10 @@ while True:
     bullets.draw(window)
     bullets.update()
 
+    if sprite.groupcollide(bullets, enemys, True, True):
+        rand_x = randint(0, 600)
+        enemy = Enemy(img='enemy.png', x=rand_x, y=0, w=100, h=50)
+        enemys.add(enemy)
+
     display.update()
     clock.tick(100)
