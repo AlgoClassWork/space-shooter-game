@@ -1,3 +1,5 @@
+
+from random import randint
 from pygame import *
 
 class GameSprite(sprite.Sprite):
@@ -18,6 +20,12 @@ class Player(GameSprite):
 
 player = Player(img='player.png', x=300, y=400, w=100, h=100)
 
+enemys = sprite.Group()
+for i in range(5):
+    rand_x = randint(0, 600)
+    enemy = GameSprite(img='enemy.png', x=rand_x, y=0, w=100, h=50)
+    enemys.add(enemy)
+
 window = display.set_mode( (700,500) )
 display.set_caption('Шутер')
 
@@ -31,5 +39,7 @@ while True:
     window.blit( background, (0, 0) )
     player.show()
     player.move()
+
+    enemys.draw(window)
 
     display.update()
