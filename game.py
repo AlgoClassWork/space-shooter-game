@@ -19,7 +19,7 @@ class Player(GameSprite):
         player.rect.centerx = mouse_x 
 
     def fire(self):
-        bullet = GameSprite(img='bullet.png', x=self.rect.x, y=self.rect.y, w=30, h=30)
+        bullet = Bullet(img='bullet.png', x=self.rect.x, y=self.rect.y, w=30, h=30)
         bullets.add(bullet)
 
 class Enemy(GameSprite):
@@ -28,6 +28,10 @@ class Enemy(GameSprite):
         if self.rect.y > 500:
             self.rect.x = randint(0, 600)
             self.rect.y = 0
+
+class Bullet(GameSprite):
+    def update(self):
+        self.rect.y -= 10
 
 player = Player(img='player.png', x=300, y=400, w=100, h=100)
 
