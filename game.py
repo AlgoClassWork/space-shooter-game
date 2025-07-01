@@ -53,6 +53,8 @@ score = 0
 font.init()
 my_font = font.Font(None, 40)
 
+finish = False
+
 while True:
     for some_event in event.get():
         if some_event.type == QUIT:
@@ -60,25 +62,29 @@ while True:
         elif some_event.type == MOUSEBUTTONDOWN:
             player.fire()
 
-    window.blit( background, (0, 0) )
+    if not finish:
+        window.blit( background, (0, 0) )
 
-    score_text = my_font.render(f'Очки: {score}', 0, (255,255,255))
-    window.blit(score_text, (20, 20))
+        score_text = my_font.render(f'Очки: {score}', 0, (255,255,255))
+        window.blit(score_text, (20, 20))
 
-    player.show()
-    player.move()
+        player.show()
+        player.move()
 
-    enemys.draw(window)
-    enemys.update()
+        enemys.draw(window)
+        enemys.update()
 
-    bullets.draw(window)
-    bullets.update()
+        bullets.draw(window)
+        bullets.update()
 
-    if sprite.groupcollide(bullets, enemys, True, True):
-        rand_x = randint(0, 600)
-        enemy = Enemy(img='enemy.png', x=rand_x, y=0, w=100, h=50)
-        enemys.add(enemy)
-        score += 1
+        if sprite.groupcollide(bullets, enemys, True, True):
+            rand_x = randint(0, 600)
+            enemy = Enemy(img='enemy.png', x=rand_x, y=0, w=100, h=50)
+            enemys.add(enemy)
+            score += 1
+
+        if sprite.spritecollide(player, enemys, True):
+            finish = True
 
     display.update()
     clock.tick(100)
