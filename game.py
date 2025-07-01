@@ -18,6 +18,10 @@ class Player(GameSprite):
         mouse_x, mouse_y = mouse.get_pos() 
         player.rect.centerx = mouse_x 
 
+    def fire(self):
+        bullet = GameSprite(img='bullet.png', x=self.rect.x, y=self.rect.y, w=30, h=30)
+        bullets.add(bullet)
+
 class Enemy(GameSprite):
     def update(self):
         self.rect.y += randint(1, 5)
@@ -27,6 +31,7 @@ class Enemy(GameSprite):
 
 player = Player(img='player.png', x=300, y=400, w=100, h=100)
 
+bullets = sprite.Group()
 enemys = sprite.Group()
 for i in range(5):
     rand_x = randint(0, 600)
@@ -44,6 +49,8 @@ while True:
     for some_event in event.get():
         if some_event.type == QUIT:
             exit()
+        elif some_event.type == MOUSEBUTTONDOWN:
+            player.fire()
 
     window.blit( background, (0, 0) )
     player.show()
@@ -51,6 +58,9 @@ while True:
 
     enemys.draw(window)
     enemys.update()
+
+    bullets.draw(window)
+    bullets.update()
 
     display.update()
     clock.tick(100)
