@@ -24,10 +24,12 @@ class Player(GameSprite):
 
 class Enemy(GameSprite):
     def update(self):
+        global lost
         self.rect.y += randint(1, 5)
         if self.rect.y > 500:
             self.rect.x = randint(0, 600)
             self.rect.y = 0
+            lost += 1
 
 class Bullet(GameSprite):
     def update(self):
@@ -49,6 +51,7 @@ clock = time.Clock()
 
 background =  transform.scale(image.load('background.jpg'), (700,500))
 
+lost = 0
 score = 0
 font.init()
 my_font = font.Font(None, 40)
@@ -68,6 +71,9 @@ while True:
         score_text = my_font.render(f'Очки: {score}', 0, (255,255,255))
         window.blit(score_text, (20, 20))
 
+        lost_text = my_font.render(f'Пропущено: {lost}', 0, (255,255,255))
+        window.blit(lost_text, (20, 60))
+
         player.show()
         player.move()
 
@@ -83,7 +89,10 @@ while True:
             enemys.add(enemy)
             score += 1
 
-        if sprite.spritecollide(player, enemys, True):
+        if sprite.spritecollide(player, enemys, True) and lost > 10:
+            finish = True
+
+        if score > 20:
             finish = True
 
     display.update()
